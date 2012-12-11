@@ -66,7 +66,8 @@ sub via_bigint {
     $y->blsft(1);
     $y->bior($x);
 
-    return sprintf "%0${zoom}s", substr($y->as_oct, 1);
+    my $out = $y->as_oct;
+    return '0' x ($zoom - length $out) . $out;
 }
 
 sub by_digits_array {
