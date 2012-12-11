@@ -43,7 +43,10 @@ my $spread = shift @ARGV || 2;
 my %seen;
 
 
-print STDERR "Checking...\n";
+print STDERR
+    'Checking... '
+    . ( 4 ** $spread )
+    ." sets of tiles to go\n";
 for my $i ( 0 .. 4 ** $spread - 1 ) {
     for my $tail ( $origin_length + $spread .. 20 ) {
         my $coord
@@ -56,10 +59,9 @@ for my $i ( 0 .. 4 ** $spread - 1 ) {
                 'Referer' => 'http://ant.dev.openstreetmap.org/bingimageanalyzer/?lat=55&lon=61&zoom=10',
             );
             $seen{$coord} = 1;
+            print STDERR "\rset $i, tile $coord ";
         } # unless seen
     } # for tail
-
-    print STDERR "\r$i";
 } # for i
 
 print STDERR "\nDone\n";
