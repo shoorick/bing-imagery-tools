@@ -117,8 +117,8 @@ Search for
 <div id="map"></div>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" /><!--[if lte IE 8]>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" /><![endif]--><script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script><script>
-var map = L.map('map').setView([<%= $map->{'lat'} %>, <%= $map->{'lon'} %>], 16);
-L.tileLayer('http://{s}.tile.cloudmade.com/894a23ab6e0944fa8097f1e803d062da/1175/256/{z}/{x}/{y}.png', {
+var map = L.map('map').setView([<%= $map->{'lat'} %>, <%= $map->{'lon'} %>], 14);
+L.tileLayer('http://{s}.tile.cloudmade.com/894a23ab6e0944fa8097f1e803d062da/1155/256/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> Contributors, <a href="http://www.openstreetmap.org/copyright">ODbL 1.0</a>, Imagery &copy; <a href="http://cloudmade.com">CloudMade</a>', maxZoom: 18}).addTo(map);
 var marker = L.marker([<%= $map->{'lat'} %>, <%= $map->{'lon'} %>]).addTo(map);
 </script>
@@ -126,7 +126,7 @@ var marker = L.marker([<%= $map->{'lat'} %>, <%= $map->{'lon'} %>]).addTo(map);
 % for my $place ( @$places ) {
 %   my $tile = shift @$tiles;
 <li class="<%= $tile->{'class'} . ' class-' . $place->{'class'} . ' type-' . $place->{'type'} %>">
-<a href="#" onclick="marker.setLatLng([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>]);map.panTo([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>])"><%= $place->{'display_name'} %></a>
+<a href="#<%= $tile->{'tile'} %>" onclick="marker.setLatLng([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>]);map.panTo([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>])"><%= $place->{'display_name'} %></a>
 </li>
 % }
 </ul>
@@ -149,7 +149,7 @@ var marker = L.marker([<%= $map->{'lat'} %>, <%= $map->{'lon'} %>]).addTo(map);
   .unknown { background: #eee }
   .yes { background: #cfd }
   .no  { background: #fba }
-  .places li:first-child { font-size: 150% }
+  .places li { margin-bottom: 0.1em; }
   .places a { text-decoration: none }
   #map { height: 400px; width:50%; float:right }
   </style>
