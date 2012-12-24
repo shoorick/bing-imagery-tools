@@ -89,10 +89,9 @@ any '/search' => sub {
 
 };
 
-
 app->start;
-__DATA__
 
+__DATA__
 
 @@ form.html.ep
 %= form_for 'search' => begin
@@ -123,11 +122,13 @@ L.tileLayer('http://{s}.tile.cloudmade.com/894a23ab6e0944fa8097f1e803d062da/1155
 var marker = L.marker([<%= $map->{'lat'} %>, <%= $map->{'lon'} %>]).addTo(map);
 </script>
 <ul class="places">
+% my %seen_at_this_page = ();
 % for my $place ( @$places ) {
 %   my $tile = shift @$tiles;
-<li class="<%= $tile->{'class'} . ' class-' . $place->{'class'} . ' type-' . $place->{'type'} %>">
+<li class="<%= $tile->{'class'} . ' class-' . $place->{'class'} . ' type-' . $place->{'type'} . ( exists $seen_at_this_page{ $tile->{'tile'} } ? ' already' : '' ) %>">
 <a href="#<%= $tile->{'tile'} %>" onclick="marker.setLatLng([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>]);map.panTo([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>])"><%= $place->{'display_name'} %></a>
 </li>
+%   $seen_at_this_page{ $tile->{'tile'} } = 1;
 % }
 </ul>
 % }
@@ -149,9 +150,11 @@ var marker = L.marker([<%= $map->{'lat'} %>, <%= $map->{'lon'} %>]).addTo(map);
   .unknown { background: #eee }
   .yes { background: #cfd }
   .no  { background: #fba }
+  .places { margin-right: 50% }
   .places li { margin-bottom: 0.1em; }
   .places a { text-decoration: none }
   #map { height: 400px; width:50%; float:right }
+  .already td, li.already { font-size: 75%; color: #665 }
   </style>
   </head>
   <body><%= content %></body>
