@@ -145,6 +145,7 @@ __DATA__
 % }
 % else {
 %    title 'Not Found';
+%= t h1 => 'Not Found';
 % }
 
 
@@ -189,6 +190,8 @@ __DATA__
       .table tbody tr.error   td { background: #fba }
       #map { height: 400px; /*width:50%; float:right*/ }
       .already td, li.already { font-size: 75%; color: #665 }
+/*      .container-fluid { padding-right: 0; padding-left: 0; }
+      .row-fluid [class*="span"] { margin-left: 0; }*/
     </style>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="/js/bootstrap.min.js"></script>
