@@ -89,6 +89,9 @@ any '/search' => sub {
 
 };
 
+get  '/subscribe' => sub {};
+post '/subscribe' => sub {};
+
 app->start;
 
 __DATA__
@@ -96,7 +99,7 @@ __DATA__
 @@ form.html.ep
 %= form_for 'search' => ( 'class' => 'navbar-form form-search pull-left' ) => begin
     %= t div => ( 'class' => 'input-append' ) => begin
-        %= text_field 'address' => ( 'placeholder' => 'Search' ) => ( 'class' => 'search-query' )
+        %= text_field 'address' => ( 'placeholder' => 'Search for place' ) => ( 'class' => 'search-query' )
         %= t 'button' => ( 'type' => 'submit' ) => ( 'class' => 'btn' ) => begin
             <i class="icon-search"></i>
         % end
@@ -116,7 +119,7 @@ __DATA__
 %    title 'Result';
 <div class="span6"><div id="map"></div></div>
 <div class="span6">
-    <form action="subscribe">
+    <form action="subscribe" method="post">
         <table class="places table table-striped with-check">
             <tr>
                 <th><input type="checkbox" id="title-checkbox" name="title-checkbox" /> </th>
@@ -127,7 +130,12 @@ __DATA__
 % for my $place ( @$places ) {
 %   my $tile = shift @$tiles;
 <tr class="<%= $tile->{'class'} . ' class-' . $place->{'class'} . ' type-' . $place->{'type'} . ( exists $seen_at_this_page{ $tile->{'tile'} } ? ' already' : '' ) %>">
-<td><% unless ( $tile->{'class'} eq 'success' || exists $seen_at_this_page{ $tile->{'tile'} } ) { $checkbox_count++; %><input type="checkbox" /><% } %></td>
+<td>
+% unless ( $tile->{'class'} eq 'success' || exists $seen_at_this_page{ $tile->{'tile'} } ) {
+    %  $checkbox_count++;
+    %= check_box 'tile-' . $tile->{'tile'} => $place->{'display_name'}
+% }
+</td>
 <td><a href="#<%= $tile->{'tile'} %>" onclick="marker.setLatLng([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>]);map.panTo([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>])"><%= $place->{'display_name'} %></a>
 </td>
 %   $seen_at_this_page{ $tile->{'tile'} } = 1;
@@ -174,6 +182,12 @@ __DATA__
     </script>
 
 
+@@ subscribe.html.ep
+% layout 'default';
+% title 'Coming soon';
+%= t 'h1' => 'Subscription';
+
+
 @@ layouts/default.html.ep
 <!DOCTYPE html>
 <html>
@@ -197,14 +211,12 @@ __DATA__
     <script src="/js/bootstrap.min.js"></script>
   </head>
   <body>
-      <div class="navbar navbar-static-top">
-          <div class="navbar-inner">
-        <a class="brand" href="/" title="bing imagery — analyze and subscribe">bias</a>
-
-%= include 'form';
+    <div class="navbar navbar-static-top">
+      <div class="navbar-inner">
+        <a class="brand" href="/" title="bing imagery &mdash; analyze and subscribe">bias</a>
+        %= include 'form';
         <ul class="nav">
-
-          <li><a href="/subscription">Subscription</a></li>
+          <li><a href="/subscribe">Subscription</a></li>
         </ul>
       </div>
     </div>
