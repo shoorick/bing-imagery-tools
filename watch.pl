@@ -215,8 +215,10 @@ __DATA__
       <div class="navbar-inner">
         <a class="brand" href="/" title="bing imagery &mdash; analyze and subscribe">bias</a>
         %= include 'form';
-        <ul class="nav">
-          <li><a href="/subscribe">Subscription</a></li>
+        <ul class="nav pull-right">
+          <li><a href="/subscribe"><i class="icon-th-list"></i> Subscription</a></li>
+          <li><a href="/profile"><i class="icon-user"></i> Profile</a></li>
+          <li><a href="/logout"><i class="icon-off"></i> Logout</a></li>
         </ul>
       </div>
     </div>
