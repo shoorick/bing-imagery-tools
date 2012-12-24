@@ -123,16 +123,23 @@ __DATA__
                 <th>See and subscribe</th>
             </tr>
 % my %seen_at_this_page = ();
+% my $checkbox_count = 0;
 % for my $place ( @$places ) {
 %   my $tile = shift @$tiles;
 <tr class="<%= $tile->{'class'} . ' class-' . $place->{'class'} . ' type-' . $place->{'type'} . ( exists $seen_at_this_page{ $tile->{'tile'} } ? ' already' : '' ) %>">
-<td><% unless ( $tile->{'class'} eq 'success' || exists $seen_at_this_page{ $tile->{'tile'} } ) { %><input type="checkbox" /><% } %></td>
+<td><% unless ( $tile->{'class'} eq 'success' || exists $seen_at_this_page{ $tile->{'tile'} } ) { $checkbox_count++; %><input type="checkbox" /><% } %></td>
 <td><a href="#<%= $tile->{'tile'} %>" onclick="marker.setLatLng([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>]);map.panTo([<%= $place->{'lat'} %>, <%= $place->{'lon'} %>])"><%= $place->{'display_name'} %></a>
 </td>
 %   $seen_at_this_page{ $tile->{'tile'} } = 1;
 % }
 </table>
+% if ( $checkbox_count ) {
 <button type="submit" class="btn btn-primary">Subscribe</button>
+% }
+% else {
+<button type="submit" class="btn" disabled="disabled">Nothing to do</button>
+<p>There is no uncovered placed. Try another query.</p>
+% }
 </form>
 </div>
 % }
